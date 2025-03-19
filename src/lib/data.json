@@ -3,35 +3,35 @@
     {
       "id": 1,
       "name": "Aluminium Profile AISI1, Fe frei",
-      "type": "e-findo GmbH",
+      "disposer": "e-findo GmbH",
       "createdAt": "2025-03-10T00:00:00Z",
       "updatedAt": "2025-03-10T00:00:00Z"
     },
     {
       "id": 2,
       "name": "Mischschrott",
-      "type": "e-findo GmbH",
+      "disposer": "e-findo GmbH",
       "createdAt": "2025-03-10T00:00:00Z",
       "updatedAt": "2025-03-10T00:00:00Z"
     },
     {
       "id": 3,
       "name": "Eisenspäne",
-      "type": "e-findo GmbH",
+      "disposer": "e-findo GmbH",
       "createdAt": "2025-03-10T00:00:00Z",
       "updatedAt": "2025-03-10T00:00:00Z"
     },
     {
       "id": 4,
       "name": "Elektroschrott",
-      "type": "e-findo GmbH",
+      "disposer": "e-findo GmbH",
       "createdAt": "2025-03-10T00:00:00Z",
       "updatedAt": "2025-03-10T00:00:00Z"
     },
     {
       "id": 5,
       "name": "Altes KSS",
-      "type": "e-findo GmbH",
+      "disposer": "e-findo GmbH",
       "createdAt": "2025-03-10T00:00:00Z",
       "updatedAt": "2025-03-10T00:00:00Z"
     }
