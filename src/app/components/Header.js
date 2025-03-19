@@ -79,7 +79,7 @@ const Header = () => {
             <div className="flex items-center space-x-2 md:space-x-4">
               {/* Benachrichtigungssymbol */}
               <div className="relative">
-                <span className="bg-e-orange-500 absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full text-[11px] font-medium text-e-white">
+                <span className="bg-e-orange-500 absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full text-[11px] font-medium bg-red-500 text-e-white">
                   2
                 </span>
                 <button className="text-e-gray-600 dark:text-e-gray-300 hover:text-e-gray-800 p-1 dark:hover:text-white">
@@ -132,7 +132,7 @@ const Header = () => {
               </button>
 
               {/* Profil */}
-              <div className="relative flex items-center space-x-2">
+              <div className="relative flex items-center space-x-2 z-50">
                 <span className="text-e-gray-700 dark:text-e-gray-200 hidden text-sm lg:block">
                   e-findo admin
                 </span>
