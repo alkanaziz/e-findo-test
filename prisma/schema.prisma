@@ -1,0 +1,95 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Container {
+  id             Int       @id @default(autoincrement())
+  machineId      String
+  maxNetto       Int
+  material       String
+  nettoWeight    Int
+  monthlyPrice   Float
+  fillLevel      Float
+  collectionDate DateTime?
+  systemDate     DateTime?
+  status         String // Yeni eklenen alan
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  transactions Transaction[]
+}
+
+model Company {
+  id              Int      @id @default(autoincrement())
+  name            String
+  currentDate     DateTime
+  currentMonth    String
+  currentWeight   Int
+  collectedWeight Int
+  totalRevenue    Float
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  transactions Transaction[]
+  users        User[]
+}
+
+model Material {
+  id        Int      @id @default(autoincrement())
+  name      String
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  containerId Int
+  companyId   Int
+  materialId  Int
+  weight      Int
+  price       Float
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  container Container @relation(fields: [containerId], references: [id])
+  company   Company   @relation(fields: [companyId], references: [id])
+  material  Material  @relation(fields: [materialId], references: [id])
+}
+
+model Metric {
+  id              Int      @id @default(autoincrement())
+  containerAmount Int // Aktuelle Lagermenge Container
+  collectedAmount Int // Abgeholte Menge
+  revenue         Float // Erlös
+  date            DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(USER)
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
