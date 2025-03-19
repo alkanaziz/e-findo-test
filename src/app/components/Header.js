@@ -10,6 +10,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useState } from "react";
 import { useTheme } from "../providers/ThemeProvider";
 import MobileMenu from "./MobileMenu";
+import { RxCross2 } from "react-icons/rx";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -172,7 +173,11 @@ const Header = () => {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="hover:text-e-gray-800 p-1 text-e-brown-600 dark:text-e-brown-400 dark:hover:text-white lg:hidden"
               >
-                <HiOutlineMenuAlt3 className="h-6 w-6" />
+                {isMobileMenuOpen ? (
+                  <RxCross2 className="h-6 w-6" />
+                ) : (
+                  <HiOutlineMenuAlt3 className="h-6 w-6" />
+                )}
               </button>
             </div>
           </div>
