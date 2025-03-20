@@ -7,6 +7,7 @@ import {
   BiErrorCircle,
   BiCube,
 } from "react-icons/bi";
+import StorageSystem from "./StorageSystem";
 
 // Verschiedene Inhaltskomponenten für jedes Menüelement
 const KontrollbelegeContent = () => (
@@ -179,46 +180,8 @@ const FehlerContent = () => (
 );
 
 const LagersystemeContent = () => (
-  <div className="space-y-4">
-    <p className="text-e-background-800 dark:text-white">
-      Im Bereich Lagersysteme können Lagersysteme und Bestandsverwaltung
-      angezeigt werden.
-    </p>
-    <div className="rounded-lg border border-e-brown-200 bg-white p-4 dark:border-e-background-600 dark:bg-e-background-700">
-      <h4 className="mb-3 font-medium text-e-brown-800 dark:text-e-brown-200">
-        Lagerstatus
-      </h4>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <p className="text-sm text-e-background-600 dark:text-e-background-300">
-            Kapazität
-          </p>
-          <div className="mt-1 h-4 w-full overflow-hidden rounded-full bg-e-background-100 dark:bg-e-background-800">
-            <div
-              className="h-full rounded-full bg-e-brown-500 dark:bg-e-brown-400"
-              style={{ width: "75%" }}
-            ></div>
-          </div>
-          <p className="mt-1 text-xs text-e-background-600 dark:text-e-background-300">
-            75% belegt
-          </p>
-        </div>
-        <div>
-          <p className="text-sm text-e-background-600 dark:text-e-background-300">
-            Temperatur
-          </p>
-          <div className="mt-1 h-4 w-full overflow-hidden rounded-full bg-e-background-100 dark:bg-e-background-800">
-            <div
-              className="h-full rounded-full bg-e-blue-500"
-              style={{ width: "40%" }}
-            ></div>
-          </div>
-          <p className="mt-1 text-xs text-e-background-600 dark:text-e-background-300">
-            22°C
-          </p>
-        </div>
-      </div>
-    </div>
+  <div className="StorageSystem h-full w-full overflow-y-auto rounded-lg bg-e-background-50 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-700 dark:text-gray-200 dark:shadow-none">
+    <StorageSystem isInModal={true} />
   </div>
 );
 

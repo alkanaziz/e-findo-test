@@ -11,7 +11,9 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative z-10 w-full max-w-lg rounded-lg bg-white p-6 shadow-xl dark:bg-e-background-800 dark:text-white">
+      <div
+        className={`relative z-10 w-full ${title === "Lagersysteme" ? "max-w-6xl" : "max-w-lg"} rounded-lg bg-white p-6 shadow-xl dark:bg-e-background-800 dark:text-white`}
+      >
         <div className="mb-4 flex items-center justify-between border-b border-e-brown-200 pb-3 dark:border-e-background-700">
           <h3 className="text-xl font-medium text-e-brown-800 dark:text-e-brown-200">
             {title}
