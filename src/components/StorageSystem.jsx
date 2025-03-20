@@ -332,7 +332,7 @@ const StorageSystem = ({ isInModal = false }) => {
                     ) : (
                       <div className="flex items-center">
                         <div className="relative h-5 w-5">
-                          <div className="absolute inset-0 animate-ping rounded-full bg-red-400 opacity-75"></div>
+                          <div className="absolute inset-0 rounded-full bg-red-400 opacity-75"></div>
                           <div className="relative h-5 w-5 rounded-full bg-red-500"></div>
                         </div>
                       </div>
