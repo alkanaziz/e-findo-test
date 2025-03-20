@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { FaRegMoon, FaSun } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
+import { usePathname } from "next/navigation";
 
 const MobileMenu = ({ isOpen, onClose, theme, toggleTheme }) => {
+  const pathname = usePathname();
+
   return (
     <div
       className={`transition-all duration-300 ease-in-out lg:hidden ${
@@ -47,33 +50,65 @@ const MobileMenu = ({ isOpen, onClose, theme, toggleTheme }) => {
           <Link
             onClick={onClose}
             href="/"
-            className="text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-gray-900 rounded-md px-3 py-2 text-sm font-medium dark:hover:bg-e-background-700 dark:hover:text-white"
+            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+              pathname === "/"
+                ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
+                : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
+            }`}
           >
             Start
+            {pathname === "/" ? (
+              <span className="absolute bottom-0 left-0 top-0 w-1 rounded-l-md bg-e-brown-500"></span>
+            ) : (
+              <span className="absolute bottom-0 left-0 top-0 w-0 rounded-l-md bg-e-brown-500 transition-all duration-300 group-hover:w-1"></span>
+            )}
           </Link>
           <Link
             onClick={onClose}
             href="/news"
-            className="text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-gray-900 rounded-md px-3 py-2 text-sm font-medium dark:hover:bg-e-background-700 dark:hover:text-white"
+            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+              pathname === "/news"
+                ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
+                : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
+            }`}
           >
             News
+            {pathname === "/news" ? (
+              <span className="absolute bottom-0 left-0 top-0 w-1 rounded-l-md bg-e-brown-500"></span>
+            ) : (
+              <span className="absolute bottom-0 left-0 top-0 w-0 rounded-l-md bg-e-brown-500 transition-all duration-300 group-hover:w-1"></span>
+            )}
           </Link>
           <Link
             onClick={onClose}
             href="/stammdaten"
-            className="text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-gray-900 rounded-md px-3 py-2 text-sm font-medium dark:hover:bg-e-background-700 dark:hover:text-white"
+            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+              pathname === "/stammdaten"
+                ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
+                : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
+            }`}
           >
             Stammdaten
+            {pathname === "/stammdaten" ? (
+              <span className="absolute bottom-0 left-0 top-0 w-1 rounded-l-md bg-e-brown-500"></span>
+            ) : (
+              <span className="absolute bottom-0 left-0 top-0 w-0 rounded-l-md bg-e-brown-500 transition-all duration-300 group-hover:w-1"></span>
+            )}
           </Link>
-          <button className="text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-gray-900 flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium dark:hover:bg-e-background-700 dark:hover:text-white">
+          <button className="text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 group relative flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300">
             Mehr
-            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path
                 fillRule="evenodd"
                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                 clipRule="evenodd"
               />
             </svg>
+            <span className="absolute bottom-0 left-0 top-0 w-0 rounded-l-md bg-e-brown-500 transition-all duration-300 group-hover:w-1"></span>
           </button>
         </nav>
 
