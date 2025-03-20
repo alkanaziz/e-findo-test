@@ -9,11 +9,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "e-white": "#FFFFFF",
         "e-background": {
-          50: "#F7F7F7",
+          50: "#F6F5F8",
           100: "#EBEBEB",
-          200: "#D3D3D3", // Base color
+          200: "#D3D3D3",
           300: "#BCBCBC",
           400: "#A4A4A4",
           500: "#8D8D8D",
@@ -27,7 +26,7 @@ module.exports = {
           100: "#E5DCD9",
           200: "#C7B5AF",
           300: "#B09891",
-          400: "#927064", // Base color
+          400: "#927064",
           500: "#7A5D53",
           600: "#624B43",
           700: "#4A3832",
