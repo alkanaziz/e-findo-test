@@ -1,25 +1,55 @@
-// import prisma from "@/lib/prisma";
+"use client";
 
-export default async function Home() {
-  // const containers = await prisma.container.findMany();
-  // const companies = await prisma.company.findMany();
-  // const materials = await prisma.material.findMany();
-  // const transactions = await prisma.transaction.findMany();
-  // const metrics = await prisma.metric.findMany();
-  // const users = await prisma.user.findMany();
+import { useState, useEffect } from "react";
+import Sidebar from "@/components/Sidebar";
+import DashboardStats from "@/components/DashboardStats";
 
-  // console.log("Containers:", containers);
-  // console.log("Companies:", companies);
-  // console.log("Materials:", materials);
-  // console.log("Transactions:", transactions);
-  // console.log("Metrics:", metrics);
-  // console.log("Users:", users);
+export default function Home() {
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formattedDate = new Intl.DateTimeFormat("de-DE", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "Europe/Berlin",
+  }).format(currentDate);
 
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start">
-        <h1>e-findo GmbH</h1>
-      </main>
+    <div className="flex h-screen flex-col">
+      <div className="m-2 flex flex-col gap-2">
+        <div className="currentDate mx-auto w-fit rounded-md bg-e-background-50 px-3 text-center shadow-sm shadow-e-brown-500 dark:bg-e-background-700 dark:text-gray-200 dark:shadow-none">
+          {formattedDate}
+        </div>
+        <main className="flex flex-col gap-2 md:flex-row">
+          <Sidebar />
+          <div className="dashboardStats flex flex-col gap-2 md:w-full">
+            <DashboardStats />
+            <div className="StorageSystem rounded-lg bg-e-background-50 p-4 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-700 dark:text-gray-200 dark:shadow-none">
+              Lagersysteme
+            </div>
+            <div className="flex flex-col gap-2 rounded-lg bg-e-background-50 p-4 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-700 dark:shadow-none md:flex-row">
+              <div className="RevenueChart rounded-lg bg-e-white p-4 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-800 dark:text-gray-200 dark:shadow-none md:w-1/2">
+                Erlöse
+              </div>
+              <div className="WeightTrend rounded-lg bg-e-white p-4 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-800 dark:text-gray-200 dark:shadow-none md:w-1/2">
+                Gewichtstrend
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
