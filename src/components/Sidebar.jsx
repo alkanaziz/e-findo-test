@@ -9,10 +9,17 @@ import {
   BiCube,
 } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import Modal from "./Modal";
+import ModalContent from "./ModalContent";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
+  const [modalInfo, setModalInfo] = useState({
+    isOpen: false,
+    title: "",
+    contentType: "",
+  });
 
   useEffect(() => {
     let timeout;
@@ -27,36 +34,57 @@ const Sidebar = () => {
     return () => clearTimeout(timeout);
   }, [isOpen]);
 
+  const openModal = (title, contentType) => {
+    setModalInfo({
+      isOpen: true,
+      title,
+      contentType,
+    });
+  };
+
+  const closeModal = () => {
+    setModalInfo({
+      ...modalInfo,
+      isOpen: false,
+    });
+  };
+
   const menuItems = [
     {
       title: "Kontrollbelege",
       icon: BiFile,
       href: "/kontrollbelege",
+      contentType: "Kontrollbelege",
     },
     {
       title: "Monatsauswertung",
       icon: BiBarChart,
       href: "/monatsauswertung",
+      contentType: "Monatsauswertung",
     },
     {
       title: "Statistik",
       icon: BiLineChart,
       href: "/statistik",
+      contentType: "Statistik",
     },
     {
       title: "Index",
       icon: BiTable,
       href: "/index",
+      contentType: "Index",
     },
     {
       title: "Fehler",
       icon: BiErrorCircle,
       href: "/fehler",
+      contentType: "Fehler",
     },
     {
       title: "Lagersysteme",
       icon: BiCube,
       href: "/lagersysteme",
+      contentType: "Lagersysteme",
     },
   ];
 
@@ -91,10 +119,10 @@ const Sidebar = () => {
           {/* Menüinhalt */}
           <nav className="flex h-full flex-wrap justify-evenly gap-3 p-3 *:max-w-28 *:rounded-lg *:border *:border-e-brown-400 md:h-[calc(100vh-12rem)] md:flex-col md:flex-nowrap md:justify-between">
             {menuItems.map((item, index) => (
-              <Link
+              <div
                 key={index}
-                href={""}
-                className="group flex h-full w-full flex-col items-center justify-center transition-colors hover:bg-[#9F8170]"
+                className="group flex h-full w-full cursor-pointer flex-col items-center justify-center transition-colors hover:bg-[#9F8170]"
+                onClick={() => openModal(item.title, item.contentType)}
               >
                 <div className="flex h-10 w-10 items-center justify-center">
                   <item.icon className="size-7 md:size-10" />
@@ -102,11 +130,20 @@ const Sidebar = () => {
                 <span className="mt-1 px-1 text-center text-[11px] font-medium">
                   {item.title}
                 </span>
-              </Link>
+              </div>
             ))}
           </nav>
         </aside>
       )}
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalInfo.isOpen}
+        onClose={closeModal}
+        title={modalInfo.title}
+      >
+        <ModalContent contentType={modalInfo.contentType} />
+      </Modal>
     </div>
   );
 };
