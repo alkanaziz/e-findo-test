@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { MdOutlineOpenInFull } from "react-icons/md";
+import { MdOutlineOpenInFull, MdOutlineCloseFullscreen } from "react-icons/md";
 import Modal from "./Modal";
 import ModalContent from "./ModalContent";
 import { FaEdit, FaCalendarAlt } from "react-icons/fa";
 
-const StorageSystem = ({ isInModal = false }) => {
+const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
     title: "Lagersysteme",
@@ -31,7 +32,7 @@ const StorageSystem = ({ isInModal = false }) => {
       liveStatus: true,
       maxWeight: "2600kg",
       material: "Aluminium Profile AlSi1, Fe frei",
-      company: "e-findo GmbH",
+      company: "e-findo GmbH", 
       nettoWeight: "890 kg",
       monthlyPrice: "2025/März : 0,00 €",
       fillLevel: 34.23,
@@ -114,7 +115,7 @@ const StorageSystem = ({ isInModal = false }) => {
       id: "CMS-6045",
       liveStatus: true,
       maxWeight: "3800kg",
-      material: "Stahlschrott",
+      material: "Stahlschrott", 
       company: "e-findo GmbH",
       nettoWeight: "1125 kg",
       monthlyPrice: "2025/März : 92,30 €",
@@ -122,6 +123,54 @@ const StorageSystem = ({ isInModal = false }) => {
       pickupDate: null,
       systemDate: "07.03.2025 16:20",
     },
+    {
+      id: "CMS-9056",
+      liveStatus: true,
+      maxWeight: "4500kg",
+      material: "Messingspäne",
+      company: "Metall GmbH",
+      nettoWeight: "1850 kg",
+      monthlyPrice: "2025/März : 165,90 €",
+      fillLevel: 41.11,
+      pickupDate: "20.04.2025",
+      systemDate: "22.03.2025 08:45",
+    },
+    {
+      id: "CMS-2067",
+      liveStatus: false,
+      maxWeight: "3200kg",
+      material: "Kupferdrähte",
+      company: "Recycling AG",
+      nettoWeight: "960 kg",
+      monthlyPrice: "2025/März : 112,40 €",
+      fillLevel: 30.00,
+      pickupDate: null,
+      systemDate: "25.03.2025 13:20",
+    },
+    {
+      id: "CMS-1078",
+      liveStatus: true,
+      maxWeight: "5500kg",
+      material: "Aluminiumspäne",
+      company: "Wertstoff KG",
+      nettoWeight: "2100 kg",
+      monthlyPrice: "2025/März : 178,25 €",
+      fillLevel: 38.18,
+      pickupDate: "10.04.2025",
+      systemDate: "28.03.2025 15:50",
+    },
+    {
+      id: "CMS-4089",
+      liveStatus: true,
+      maxWeight: "4800kg",
+      material: "Zinkschrott",
+      company: "e-findo GmbH",
+      nettoWeight: "1560 kg",
+      monthlyPrice: "2025/März : 134,60 €",
+      fillLevel: 32.50,
+      pickupDate: null,
+      systemDate: "30.03.2025 10:15",
+    }
   ]);
 
   const openModal = () => {
@@ -136,6 +185,13 @@ const StorageSystem = ({ isInModal = false }) => {
       ...modalInfo,
       isOpen: false,
     });
+  };
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+    if (onToggleFullscreen) {
+      onToggleFullscreen(!isFullscreen);
+    }
   };
 
   const openDatePickerModal = (itemId) => {
@@ -257,11 +313,15 @@ const StorageSystem = ({ isInModal = false }) => {
       <div className="mb-2 flex w-full items-center justify-between">
         {!isInModal && (
           <button
-            onClick={openModal}
+            onClick={toggleFullscreen}
             className="rounded-full p-1 text-e-background-500 transition-colors hover:bg-e-brown-100 hover:text-e-brown-800 dark:text-e-background-300 dark:hover:bg-e-background-700 dark:hover:text-white"
-            aria-label="Büyüt"
+            aria-label={isFullscreen ? "Küçült" : "Büyüt"}
           >
-            <MdOutlineOpenInFull className="size-5" />
+            {isFullscreen ? (
+              <MdOutlineCloseFullscreen className="size-5" />
+            ) : (
+              <MdOutlineOpenInFull className="size-5" />
+            )}
           </button>
         )}
         <h2
