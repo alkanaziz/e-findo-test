@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../providers/ThemeProvider";
 import Header from "@/components/Header";
+import CurrentDate from "@/components/CurrentDate";
+import Sidebar from "@/components/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +28,16 @@ export default function RootLayout({ children }) {
       >
         <ThemeProvider>
           <Header />
-          {children}
+          <div className="flex h-screen flex-col">
+            <div className="m-2 flex flex-col gap-2">
+              <CurrentDate />
+              <div className="flex flex-col gap-2 md:flex-row">
+                <Sidebar />
+
+                {children}
+              </div>
+            </div>
+          </div>
         </ThemeProvider>
       </body>
     </html>
