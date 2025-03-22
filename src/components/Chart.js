@@ -269,7 +269,7 @@ export default function Chart({
               margin={{
                 top: 5,
                 right: 20,
-                left: type === "erloese" ? 10 : 40,
+                left: 10,
                 bottom: 5,
               }}
             >
@@ -279,7 +279,7 @@ export default function Chart({
                 ticks={getYAxisConfig().ticks}
                 domain={getYAxisConfig().domain}
                 tick={{ fontSize: "0.75rem" }}
-                width={type === "erloese" ? 30 : 50}
+                width={30}
               />
               <Tooltip wrapperStyle={{ fontSize: "0.75rem" }} />
               {barConfigs.map(
@@ -295,7 +295,7 @@ export default function Chart({
               margin={{
                 top: 5,
                 right: 20,
-                left: type === "erloese" ? 10 : 40,
+                left: 10,
                 bottom: 5,
               }}
             >
@@ -305,7 +305,7 @@ export default function Chart({
                 ticks={getYAxisConfig().ticks}
                 domain={getYAxisConfig().domain}
                 tick={{ fontSize: "0.75rem" }}
-                width={type === "erloese" ? 30 : 50}
+                width={30}
               />
               <Tooltip wrapperStyle={{ fontSize: "0.75rem" }} />
               {barConfigs.map(
