@@ -3,7 +3,11 @@ import { MdOutlineOpenInFull, MdOutlineCloseFullscreen } from "react-icons/md";
 import Modal from "./Modal";
 import { FaEdit, FaCalendarAlt } from "react-icons/fa";
 
-const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
+const StorageSystem = ({
+  isInModal = false,
+  onToggleFullscreen = null,
+  isHomePage = false,
+}) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const [datePickerModal, setDatePickerModal] = useState({
@@ -255,7 +259,6 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
   const handleEditItemChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    // Checkbox için checked değeri, diğerleri için value kullan
     const newValue = type === "checkbox" ? checked : value;
 
     setEditedItem((prev) => ({
@@ -357,11 +360,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
   return (
     <div className="w-full rounded-lg border border-e-brown-400 bg-e-background-50 p-2 shadow-lg dark:border-e-background-700 dark:bg-e-background-800">
       <div className="mb-2 flex w-full items-center justify-between">
-        {!isInModal && (
+        {!isInModal && isHomePage && (
           <button
             onClick={toggleFullscreen}
             className="rounded-full p-1 text-e-background-500 transition-colors hover:bg-e-brown-100 hover:text-e-brown-800 dark:text-e-background-300 dark:hover:bg-e-background-700 dark:hover:text-white"
-            aria-label={isFullscreen ? "Küçült" : "Büyüt"}
+            aria-label={isFullscreen ? "Vollbild beenden" : "Vollbild"}
           >
             {isFullscreen ? (
               <MdOutlineCloseFullscreen className="size-5" />
@@ -371,11 +374,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
           </button>
         )}
         <h2
-          className={`text-center text-lg font-semibold dark:text-gray-200 ${isInModal ? "w-full" : ""}`}
+          className={`text-center text-lg font-semibold dark:text-gray-200 ${isInModal || !isHomePage ? "w-full" : ""}`}
         >
           Lagersystem
         </h2>
-        {!isInModal && <div className="w-5"></div>}{" "}
+        {!isInModal && isHomePage && <div className="w-5"></div>}{" "}
         {/* Leeres div für die Ausrichtung */}
       </div>
       <div>
@@ -531,9 +534,42 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
       <Modal
         isOpen={datePickerModal.isOpen}
         onClose={closeDatePickerModal}
-        title="Abholdatum bearbeiten"
+        title={`Abholdatum für ${storageData.find((item) => item.id === datePickerModal.itemId)?.id || ""} bearbeiten`}
       >
         <div className="flex flex-col gap-4">
+          {datePickerModal.itemId && (
+            <div className="mb-2 rounded-lg bg-e-background-100 p-3 dark:bg-e-background-700">
+              <div className="grid grid-cols-1 gap-2 text-sm">
+                {(() => {
+                  const item = storageData.find(
+                    (item) => item.id === datePickerModal.itemId,
+                  );
+                  return (
+                    <>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">Material:</span>
+                        <span>{item?.material}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">
+                          Aktuelles Abholdatum:
+                        </span>
+                        <span>
+                          {item?.pickupDate ? (
+                            item.pickupDate
+                          ) : (
+                            <span className="text-red-500">
+                              Nicht festgelegt
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            </div>
+          )}
           <div className="flex flex-col gap-2">
             <label htmlFor="pickup-date" className="text-sm font-medium">
               Neues Abholdatum wählen:
@@ -567,14 +603,51 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
       <Modal
         isOpen={editItemModal.isOpen}
         onClose={closeEditItemModal}
-        title={`${editedItem?.id || ""} bearbeiten`}
+        title={`${editedItem?.material || ""} (${editedItem?.id || ""}) bearbeiten`}
       >
         {editedItem && (
           <div className="flex flex-col gap-4">
+            {/* Özet bilgiler */}
+            <div className="mb-2 rounded-lg bg-e-background-100 p-3 dark:bg-e-background-700">
+              <h3 className="mb-2 font-medium text-e-brown-700 dark:text-e-brown-300">
+                Aktuelle Daten für {editedItem.id}:
+              </h3>
+              <div className="grid grid-cols-1 gap-2 text-sm md:grid-cols-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Material:</span>
+                  <span>{editedItem.material}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Netto Gewicht:</span>
+                  <span>{editedItem.nettoWeight}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Füllgrad:</span>
+                  <span>{editedItem.fillLevel}%</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Status:</span>
+                  <span
+                    className={`flex items-center ${editedItem.liveStatus ? "text-green-600" : "text-red-600"}`}
+                  >
+                    {editedItem.liveStatus ? (
+                      <div className="mr-1 h-2 w-2 rounded-full bg-green-500"></div>
+                    ) : (
+                      <div className="mr-1 h-2 w-2 rounded-full bg-red-500"></div>
+                    )}
+                    {editedItem.liveStatus ? "Aktiv" : "Inaktiv"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {/* Live Status */}
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">Live Status:</label>
+                <label className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400">
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
+                  Live Status:
+                </label>
                 <div className="flex items-center">
                   <input
                     type="checkbox"
@@ -592,7 +665,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
               {/* Masch-ID */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="id" className="text-sm font-medium">
+                <label
+                  htmlFor="id"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
+                >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Masch-ID:
                 </label>
                 <input
@@ -616,7 +693,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
               {/* Max Weight */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="maxWeight" className="text-sm font-medium">
+                <label
+                  htmlFor="maxWeight"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
+                >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Max Netto:
                 </label>
                 <input
@@ -640,7 +721,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
               {/* Material */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="material" className="text-sm font-medium">
+                <label
+                  htmlFor="material"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
+                >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Material:
                 </label>
                 <input
@@ -655,7 +740,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
               {/* Company */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="company" className="text-sm font-medium">
+                <label
+                  htmlFor="company"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
+                >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Entsorger:
                 </label>
                 <input
@@ -670,7 +759,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
               {/* Netto Weight */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="nettoWeight" className="text-sm font-medium">
+                <label
+                  htmlFor="nettoWeight"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
+                >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Netto Weight:
                 </label>
                 <input
@@ -694,7 +787,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
               {/* Monthly Price */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="price" className="text-sm font-medium">
+                <label
+                  htmlFor="price"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
+                >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Monatlicher Preis (€):
                 </label>
                 <input
@@ -725,7 +822,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
               {/* Fill Level */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="fillLevel" className="text-sm font-medium">
+                <label
+                  htmlFor="fillLevel"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
+                >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Füllgrad (%):
                 </label>
                 <input
@@ -754,8 +855,9 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="edit-pickup-date"
-                  className="text-sm font-medium"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
                 >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Abholdatum:
                 </label>
                 <input
@@ -790,7 +892,11 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
               {/* System Date */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="systemDate" className="text-sm font-medium">
+                <label
+                  htmlFor="systemDate"
+                  className="text-sm font-medium text-e-brown-600 dark:text-e-brown-400"
+                >
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-e-brown-400"></span>
                   Systemdatum:
                 </label>
                 <input
