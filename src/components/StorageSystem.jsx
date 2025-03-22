@@ -3,11 +3,7 @@ import { MdOutlineOpenInFull, MdOutlineCloseFullscreen } from "react-icons/md";
 import Modal from "./Modal";
 import { FaEdit, FaCalendarAlt } from "react-icons/fa";
 
-const StorageSystem = ({
-  isInModal = false,
-  onToggleFullscreen = null,
-  isHomePage = false,
-}) => {
+const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const [datePickerModal, setDatePickerModal] = useState({
@@ -360,7 +356,7 @@ const StorageSystem = ({
   return (
     <div className="w-full rounded-lg border border-e-brown-400 bg-e-background-50 p-2 shadow-lg dark:border-e-background-700 dark:bg-e-background-800">
       <div className="mb-2 flex w-full items-center justify-between">
-        {!isInModal && isHomePage && (
+        {!isInModal && (
           <button
             onClick={toggleFullscreen}
             className="rounded-full p-1 text-e-background-500 transition-colors hover:bg-e-brown-100 hover:text-e-brown-800 dark:text-e-background-300 dark:hover:bg-e-background-700 dark:hover:text-white"
@@ -374,11 +370,11 @@ const StorageSystem = ({
           </button>
         )}
         <h2
-          className={`text-center text-lg font-semibold dark:text-gray-200 ${isInModal || !isHomePage ? "w-full" : ""}`}
+          className={`text-center text-lg font-semibold dark:text-gray-200 ${isInModal ? "w-full" : ""}`}
         >
           Lagersystem
         </h2>
-        {!isInModal && isHomePage && <div className="w-5"></div>}{" "}
+        {!isInModal && <div className="w-5"></div>}{" "}
         {/* Leeres div für die Ausrichtung */}
       </div>
       <div>
