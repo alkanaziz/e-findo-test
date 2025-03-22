@@ -24,6 +24,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
 
   const [selectedDate, setSelectedDate] = useState("");
   const [editedItem, setEditedItem] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
 
   // Beispieldaten - mit useState verwalten
   const [storageData, setStorageData] = useState([
@@ -32,7 +33,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
       liveStatus: true,
       maxWeight: "2600kg",
       material: "Aluminium Profile AlSi1, Fe frei",
-      company: "e-findo GmbH", 
+      company: "e-findo GmbH",
       nettoWeight: "890 kg",
       monthlyPrice: "2025/März : 0,00 €",
       fillLevel: 34.23,
@@ -115,7 +116,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
       id: "CMS-6045",
       liveStatus: true,
       maxWeight: "3800kg",
-      material: "Stahlschrott", 
+      material: "Stahlschrott",
       company: "e-findo GmbH",
       nettoWeight: "1125 kg",
       monthlyPrice: "2025/März : 92,30 €",
@@ -143,7 +144,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
       company: "Recycling AG",
       nettoWeight: "960 kg",
       monthlyPrice: "2025/März : 112,40 €",
-      fillLevel: 30.00,
+      fillLevel: 30.0,
       pickupDate: null,
       systemDate: "25.03.2025 13:20",
     },
@@ -167,10 +168,10 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
       company: "e-findo GmbH",
       nettoWeight: "1560 kg",
       monthlyPrice: "2025/März : 134,60 €",
-      fillLevel: 32.50,
+      fillLevel: 32.5,
       pickupDate: null,
       systemDate: "30.03.2025 10:15",
-    }
+    },
   ]);
 
   const openModal = () => {
@@ -234,6 +235,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
       item: null,
     });
     setEditedItem(null);
+    setValidationErrors({});
   };
 
   // Deutsches Datumsformat in ein für Input geeignetes Format umwandeln (DD.MM.YYYY -> YYYY-MM-DD)
@@ -282,8 +284,72 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     }));
   };
 
+  const validateItem = (item) => {
+    const errors = {};
+
+    // ID validation: Format CMS-XXXX where X is a number
+    if (!item.id.match(/^CMS-\d{4}$/)) {
+      errors.id = "ID muss im Format CMS-XXXX sein (X = Zahl)";
+    }
+
+    // Weight validations
+    const nettoWeight = parseFloat(item.nettoWeight);
+    const maxWeight = parseFloat(item.maxWeight);
+
+    if (isNaN(nettoWeight) || nettoWeight <= 0) {
+      errors.nettoWeight = "Nettogewicht muss eine positive Zahl sein";
+    }
+
+    if (isNaN(maxWeight) || maxWeight <= 0) {
+      errors.maxWeight = "Maximalgewicht muss eine positive Zahl sein";
+    }
+
+    if (nettoWeight > maxWeight) {
+      errors.nettoWeight =
+        "Nettogewicht kann nicht größer als Maximalgewicht sein";
+    }
+
+    // Fill level validation (between 0 and 100)
+    if (item.fillLevel < 0 || item.fillLevel > 100) {
+      errors.fillLevel = "Füllgrad muss zwischen 0 und 100 liegen";
+    }
+
+    // Price validation (positive number)
+    const price = parseFloat(
+      extractPriceValue(item.monthlyPrice).replace(",", "."),
+    );
+    if (isNaN(price) || price < 0) {
+      errors.monthlyPrice = "Preis muss eine positive Zahl sein";
+    }
+
+    // System date validation
+    const systemDate = new Date(
+      item.systemDate.split(" ")[0].split(".").reverse().join("-"),
+    );
+    if (isNaN(systemDate.getTime())) {
+      errors.systemDate = "Ungültiges Systemdatum";
+    }
+
+    // Pickup date validation (if exists)
+    if (item.pickupDate) {
+      const pickupDate = new Date(
+        item.pickupDate.split(".").reverse().join("-"),
+      );
+      const today = new Date();
+
+      if (isNaN(pickupDate.getTime())) {
+        errors.pickupDate = "Ungültiges Abholdatum";
+      } else if (pickupDate < today) {
+        errors.pickupDate = "Abholdatum kann nicht in der Vergangenheit liegen";
+      }
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const saveEditedItem = () => {
-    if (editedItem) {
+    if (editedItem && validateItem(editedItem)) {
       setStorageData((prevData) =>
         prevData.map((item) => (item.id === editedItem.id ? editedItem : item)),
       );
@@ -379,7 +445,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
               {storageData.map((item, index) => (
                 <tr
                   key={item.id}
-                  className="border-b border-e-brown-400 text-sm hover:bg-e-brown-100 dark:hover:bg-e-background-700"
+                  className={`border-b ${!item.liveStatus ? "bg-red-100" : ""} border-e-brown-400 text-sm hover:bg-e-brown-100 dark:hover:bg-e-background-700`}
                 >
                   <td className="mx-auto w-10 p-3 dark:text-gray-300">
                     {item.liveStatus ? (
@@ -399,11 +465,21 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                     )}
                   </td>
                   <td className="p-3 dark:text-gray-300">
-                    <div className="flex flex-col">
-                      <span className="font-medium">{item.id}</span>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {item.maxWeight}
-                      </span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => openEditItemModal(item)}
+                        className="mr-1 rounded-full text-e-brown-600 transition-colors hover:bg-e-brown-100 hover:text-e-brown-800 dark:text-e-brown-400 dark:hover:bg-e-background-700 dark:hover:text-white"
+                        aria-label="Item bearbeiten"
+                      >
+                        <FaEdit className="size-4" />
+                      </button>
+
+                      <div className="flex flex-col">
+                        <span className="font-medium">{item.id}</span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {item.maxWeight}
+                        </span>
+                      </div>
                     </div>
                   </td>
                   <td className="p-3 dark:text-gray-300">
@@ -416,16 +492,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                   </td>
                   <td className="p-3 dark:text-gray-300">{item.nettoWeight}</td>
                   <td className="p-3 dark:text-gray-300">
-                    <div className="flex items-center">
-                      <button
-                        onClick={() => openEditItemModal(item)}
-                        className="mr-1 rounded-full text-e-brown-600 transition-colors hover:bg-e-brown-100 hover:text-e-brown-800 dark:text-e-brown-400 dark:hover:bg-e-background-700 dark:hover:text-white"
-                        aria-label="Item bearbeiten"
-                      >
-                        <FaEdit className="size-4" />
-                      </button>
-                      {item.monthlyPrice}
-                    </div>
+                    <div className="flex items-center">{item.monthlyPrice}</div>
                   </td>
                   <td className="p-3 dark:text-gray-300">
                     <div className="w-full">
@@ -563,8 +630,17 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                   name="id"
                   value={editedItem.id}
                   onChange={handleEditItemChange}
-                  className="rounded-md border border-e-brown-300 p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400"
+                  className={`rounded-md border ${
+                    validationErrors.id
+                      ? "border-red-500"
+                      : "border-e-brown-300"
+                  } p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400`}
                 />
+                {validationErrors.id && (
+                  <span className="text-xs text-red-500">
+                    {validationErrors.id}
+                  </span>
+                )}
               </div>
 
               {/* Max Weight */}
@@ -578,8 +654,17 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                   name="maxWeight"
                   value={editedItem.maxWeight}
                   onChange={handleEditItemChange}
-                  className="rounded-md border border-e-brown-300 p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400"
+                  className={`rounded-md border ${
+                    validationErrors.maxWeight
+                      ? "border-red-500"
+                      : "border-e-brown-300"
+                  } p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400`}
                 />
+                {validationErrors.maxWeight && (
+                  <span className="text-xs text-red-500">
+                    {validationErrors.maxWeight}
+                  </span>
+                )}
               </div>
 
               {/* Material */}
@@ -623,8 +708,17 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                   name="nettoWeight"
                   value={editedItem.nettoWeight}
                   onChange={handleEditItemChange}
-                  className="rounded-md border border-e-brown-300 p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400"
+                  className={`rounded-md border ${
+                    validationErrors.nettoWeight
+                      ? "border-red-500"
+                      : "border-e-brown-300"
+                  } p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400`}
                 />
+                {validationErrors.nettoWeight && (
+                  <span className="text-xs text-red-500">
+                    {validationErrors.nettoWeight}
+                  </span>
+                )}
               </div>
 
               {/* Monthly Price */}
@@ -645,8 +739,17 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                       monthlyPrice: newPrice,
                     });
                   }}
-                  className="rounded-md border border-e-brown-300 p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400"
+                  className={`rounded-md border ${
+                    validationErrors.monthlyPrice
+                      ? "border-red-500"
+                      : "border-e-brown-300"
+                  } p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400`}
                 />
+                {validationErrors.monthlyPrice && (
+                  <span className="text-xs text-red-500">
+                    {validationErrors.monthlyPrice}
+                  </span>
+                )}
               </div>
 
               {/* Fill Level */}
@@ -663,8 +766,17 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                   step="0.01"
                   value={editedItem.fillLevel}
                   onChange={handleEditItemChange}
-                  className="rounded-md border border-e-brown-300 p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400"
+                  className={`rounded-md border ${
+                    validationErrors.fillLevel
+                      ? "border-red-500"
+                      : "border-e-brown-300"
+                  } p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400`}
                 />
+                {validationErrors.fillLevel && (
+                  <span className="text-xs text-red-500">
+                    {validationErrors.fillLevel}
+                  </span>
+                )}
               </div>
 
               {/* Pickup Date */}
@@ -692,8 +804,17 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                       pickupDate: formattedDate,
                     });
                   }}
-                  className="rounded-md border border-e-brown-300 p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400"
+                  className={`rounded-md border ${
+                    validationErrors.pickupDate
+                      ? "border-red-500"
+                      : "border-e-brown-300"
+                  } p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400`}
                 />
+                {validationErrors.pickupDate && (
+                  <span className="text-xs text-red-500">
+                    {validationErrors.pickupDate}
+                  </span>
+                )}
               </div>
 
               {/* System Date */}
@@ -707,8 +828,17 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
                   name="systemDate"
                   value={editedItem.systemDate}
                   onChange={handleEditItemChange}
-                  className="rounded-md border border-e-brown-300 p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400"
+                  className={`rounded-md border ${
+                    validationErrors.systemDate
+                      ? "border-red-500"
+                      : "border-e-brown-300"
+                  } p-2 focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400`}
                 />
+                {validationErrors.systemDate && (
+                  <span className="text-xs text-red-500">
+                    {validationErrors.systemDate}
+                  </span>
+                )}
               </div>
             </div>
 
