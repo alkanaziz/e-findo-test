@@ -22,7 +22,7 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <header className="sticky left-0 top-0 z-50 w-full rounded-b-2xl bg-white shadow-md shadow-e-brown-500 dark:bg-e-background-800 lg:rounded-b-full">
+    <header className="z-50 w-full rounded-b-2xl bg-white shadow-md shadow-e-brown-500 dark:bg-e-background-800 lg:rounded-b-full">
       {/* Oberer Teil - Header */}
       <div className="w-full">
         <div className="container mx-auto px-4">
