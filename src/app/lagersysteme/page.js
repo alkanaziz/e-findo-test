@@ -14,7 +14,7 @@ export default function LagersystemePage() {
   return (
     <div className="container mx-auto h-full">
       <div className={`h-[calc(100vh-180px)] ${isFullscreen ? 'h-screen w-screen fixed left-0 top-0 z-50 m-0 rounded-none' : 'relative'}`}>
-        <StorageSystem isInModal={false} onToggleFullscreen={handleToggleFullscreen} />
+        <StorageSystem isInModal={false} isHomePage={false} onToggleFullscreen={handleToggleFullscreen} />
       </div>
     </div>
   );
