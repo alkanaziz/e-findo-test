@@ -15,7 +15,7 @@ export default function Home() {
     <main className="dashboardStats flex flex-col gap-2 md:w-full">
       {!isStorageFullscreen && <DashboardStats />}
       <div className={`StorageSystem ${isStorageFullscreen ? 'h-[calc(100vh-6rem)]' : 'max-h-[33vh]'} overflow-y-auto rounded-lg bg-e-background-50 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-700 dark:text-gray-200 dark:shadow-none`}>
-        <StorageSystem onToggleFullscreen={handleStorageToggleFullscreen} />
+        <StorageSystem isHomePage={true} onToggleFullscreen={handleStorageToggleFullscreen} />
       </div>
       {!isStorageFullscreen && (
         <div className="flex h-[32vh] flex-col gap-2 rounded-lg bg-e-background-50 p-4 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-700 dark:shadow-none md:flex-row">
