@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import { MdOutlineOpenInFull, MdOutlineCloseFullscreen } from "react-icons/md";
 import Modal from "./Modal";
-import ModalContent from "./ModalContent";
 import { FaEdit, FaCalendarAlt } from "react-icons/fa";
 
 const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [modalInfo, setModalInfo] = useState({
-    isOpen: false,
-    title: "Lagersysteme",
-    contentType: "Lagersysteme",
-  });
 
   const [datePickerModal, setDatePickerModal] = useState({
     isOpen: false,
@@ -173,20 +167,6 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
       systemDate: "30.03.2025 10:15",
     },
   ]);
-
-  const openModal = () => {
-    setModalInfo({
-      ...modalInfo,
-      isOpen: true,
-    });
-  };
-
-  const closeModal = () => {
-    setModalInfo({
-      ...modalInfo,
-      isOpen: false,
-    });
-  };
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
@@ -445,7 +425,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
               {storageData.map((item, index) => (
                 <tr
                   key={item.id}
-                  className={`border-b ${!item.liveStatus ? "bg-red-100" : ""} border-e-brown-400 text-sm hover:bg-e-brown-100 dark:hover:bg-e-background-700`}
+                  className={`border-b ${!item.liveStatus ? "bg-red-100 dark:bg-red-900" : ""} border-e-brown-400 text-sm hover:bg-e-brown-100 dark:hover:bg-e-background-700`}
                 >
                   <td className="mx-auto w-10 p-3 dark:text-gray-300">
                     {item.liveStatus ? (
@@ -546,15 +526,6 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
           </table>
         </div>
       </div>
-
-      {/* Modal */}
-      <Modal
-        isOpen={modalInfo.isOpen}
-        onClose={closeModal}
-        title={modalInfo.title}
-      >
-        <ModalContent contentType={modalInfo.contentType} />
-      </Modal>
 
       {/* Date Picker Modal */}
       <Modal
