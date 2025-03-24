@@ -2,32 +2,25 @@ import Link from "next/link";
 import { FaRegMoon, FaSun } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { usePathname } from "next/navigation";
+import SearchBar from "./SearchBar";
 
 const MobileMenu = ({ isOpen, onClose, theme, toggleTheme }) => {
   const pathname = usePathname();
 
   return (
     <div
-      className={`transition-all duration-300 ease-in-out lg:hidden ${
-        isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-      } overflow-hidden bg-e-white dark:bg-e-background-800`}
+      className={`transition-all duration-300 ease-in-out lg:hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        } overflow-hidden dark:bg-e-background-800`}
     >
       <div className="container mx-auto px-4 py-2">
         {/* Mobile Suche */}
-        <div className="relative mb-4 md:hidden">
-          <input
-            type="search"
-            placeholder="Suchen..."
-            className="bg-e-gray-50 text-e-gray-700 dark:text-e-gray-200 w-full rounded-md border border-e-gray-200 py-2 pl-3 pr-8 text-sm focus:border-e-brown-500 focus:outline-none focus:ring-1 focus:ring-e-brown-500 dark:border-e-gray-700 dark:bg-e-background-700"
-          />
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-            <FiSearch className="h-4 w-4 text-e-brown-500" />
-          </div>
+        <div className="mb-4 md:hidden">
+          <SearchBar hideFilters={true} />
         </div>
 
         {/* Mobile Unternehmensauswahl */}
         <div className="relative mb-4 md:hidden">
-          <select className="text-e-gray-700 dark:text-e-gray-200 w-full appearance-none rounded-md border border-e-gray-200 bg-e-white py-2 pl-3 pr-8 text-sm focus:border-e-brown-500 focus:outline-none focus:ring-1 focus:ring-e-brown-500 dark:border-e-gray-700 dark:bg-e-background-700">
+          <select className="text-e-gray-700 dark:text-e-gray-200 w-full appearance-none rounded-md border border-e-brown-300 py-1.5 pl-3 pr-8 text-sm focus:border-e-brown-500 focus:outline-none focus:ring-1 focus:ring-e-brown-500 dark:bg-e-background-700">
             <option>Allsafe GmbH - Engen</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
@@ -50,11 +43,10 @@ const MobileMenu = ({ isOpen, onClose, theme, toggleTheme }) => {
           <Link
             onClick={onClose}
             href="/"
-            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-              pathname === "/"
-                ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
-                : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
-            }`}
+            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/"
+              ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
+              : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
+              }`}
           >
             Start
             {pathname === "/" ? (
@@ -66,11 +58,10 @@ const MobileMenu = ({ isOpen, onClose, theme, toggleTheme }) => {
           <Link
             onClick={onClose}
             href="/news"
-            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-              pathname === "/news"
-                ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
-                : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
-            }`}
+            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/news"
+              ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
+              : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
+              }`}
           >
             News
             {pathname === "/news" ? (
@@ -82,11 +73,10 @@ const MobileMenu = ({ isOpen, onClose, theme, toggleTheme }) => {
           <Link
             onClick={onClose}
             href="/stammdaten"
-            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-              pathname === "/stammdaten"
-                ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
-                : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
-            }`}
+            className={`group relative flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/stammdaten"
+              ? "bg-e-brown-100 font-semibold text-e-brown-500 dark:bg-e-background-700 dark:text-e-brown-300"
+              : "text-e-gray-700 dark:text-e-gray-200 hover:bg-e-gray-100 hover:text-e-brown-500 dark:hover:bg-e-background-700 dark:hover:text-e-brown-300"
+              }`}
           >
             Stammdaten
             {pathname === "/stammdaten" ? (

@@ -12,7 +12,7 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
     status: initialFilters.status || "",
     dateFrom: initialFilters.dateFrom || "",
     dateTo: initialFilters.dateTo || "",
-    dateType: initialFilters.dateType || "pickupDate"
+    dateType: initialFilters.dateType || "pickupDate",
   });
 
   // Automatische Suche wenn sich Filter ändern
@@ -21,7 +21,7 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
       const debounceTimeout = setTimeout(() => {
         onSearch({
           searchTerm,
-          ...filters
+          ...filters,
         });
       }, 300); // 300ms debounce
 
@@ -31,14 +31,14 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
 
   // Prüft ob aktive Filter vorhanden sind
   const hasActiveFilters = () => {
-    return Object.values(filters).some(value => value !== "");
+    return Object.values(filters).some((value) => value !== "");
   };
 
   // Einen bestimmten Filter löschen
   const clearFilter = (filterName) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
-      [filterName]: ""
+      [filterName]: "",
     }));
   };
 
@@ -62,9 +62,9 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -76,14 +76,14 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
   const clearAllFilters = () => {
     setFilters({
       material: "",
-      company: "", 
+      company: "",
       status: "",
       dateFrom: "",
       dateTo: "",
-      dateType: "pickupDate"
+      dateType: "pickupDate",
     });
     setSearchTerm("");
-    
+
     // URL-Parameter löschen
     const url = new URL(window.location.href);
     url.search = ""; // Alle Query-Parameter löschen
@@ -95,7 +95,7 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
     if (!hasActiveFilters()) return null;
 
     return (
-      <div className="mt-3 mb-2 flex items-center flex-wrap gap-2">
+      <div className="mb-2 mt-3 flex flex-wrap items-center gap-2">
         <span className="text-xs font-medium text-gray-600 dark:text-gray-300">
           Aktive Filter:
         </span>
@@ -128,7 +128,9 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
 
         {filters.status && (
           <div className="flex items-center rounded-full bg-e-brown-100 px-2 py-1 text-xs text-e-brown-800 dark:bg-e-background-700 dark:text-e-brown-300">
-            <span>Status: {filters.status === "true" ? "Aktiv" : "Inaktiv"}</span>
+            <span>
+              Status: {filters.status === "true" ? "Aktiv" : "Inaktiv"}
+            </span>
             <button
               onClick={() => clearFilter("status")}
               className="ml-1 rounded-full p-0.5 hover:bg-e-brown-200 dark:hover:bg-e-background-600"
@@ -142,16 +144,16 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
         {(filters.dateFrom || filters.dateTo) && (
           <div className="flex items-center rounded-full bg-e-brown-100 px-2 py-1 text-xs text-e-brown-800 dark:bg-e-background-700 dark:text-e-brown-300">
             <span>
-              {filters.dateType === "pickupDate" ? "Abholdatum" : "Systemdatum"}:
-              {filters.dateFrom && ` von ${filters.dateFrom}`}
+              {filters.dateType === "pickupDate" ? "Abholdatum" : "Systemdatum"}
+              :{filters.dateFrom && ` von ${filters.dateFrom}`}
               {filters.dateTo && ` bis ${filters.dateTo}`}
             </span>
             <button
               onClick={() => {
-                setFilters(prev => ({
+                setFilters((prev) => ({
                   ...prev,
                   dateFrom: "",
-                  dateTo: ""
+                  dateTo: "",
                 }));
               }}
               className="ml-1 rounded-full p-0.5 hover:bg-e-brown-200 dark:hover:bg-e-background-600"
@@ -181,7 +183,7 @@ const SearchBar = ({ onSearch, hideFilters = false, initialFilters = {} }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Container, Material oder Entsorger suchen..."
-            className="w-full rounded-lg border border-e-brown-300 bg-white px-4 py-2 pr-10 text-sm focus:border-e-brown-500 focus:outline-none dark:border-e-background-600 dark:bg-e-background-700 dark:text-white dark:focus:border-e-brown-400"
+            className="text-e-gray-700 dark:text-e-gray-200 w-full appearance-none rounded-md border border-e-brown-300 py-1.5 pl-3 pr-8 text-sm focus:border-e-brown-500 focus:outline-none focus:ring-1 focus:ring-e-brown-500 dark:bg-e-background-700"
           />
 
           <button
