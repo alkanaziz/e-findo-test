@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
 import ContainerCard from "@/components/ContainerCard";
 import Modal from "@/components/Modal";
-import ContainerEdit from "@/components/ContainerEdit";
 
 function SearchPageContent() {
   const searchParams = useSearchParams();
