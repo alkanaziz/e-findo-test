@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
 import ContainerCard from "@/components/ContainerCard";
 import Modal from "@/components/Modal";
 import ContainerEdit from "@/components/ContainerEdit";
 
-export default function SearchPage() {
+function SearchPageContent() {
   const searchParams = useSearchParams();
 
   // URL parametrelerinden arama terimlerini alın
@@ -504,5 +504,22 @@ export default function SearchPage() {
         </div>
       </Modal>
     </main>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="mb-6 text-2xl font-bold text-e-brown-800 dark:text-white">
+          Container Suche
+        </h1>
+        <div className="flex h-40 items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-e-brown-600"></div>
+        </div>
+      </div>
+    }>
+      <SearchPageContent />
+    </Suspense>
   );
 } 
