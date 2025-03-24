@@ -1,69 +1,54 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DashboardStats from "@/components/DashboardStats";
-import StorageSystem from "@/components/StorageSystem";
-import Chart from "@/components/Chart";
+import StorageSystemWrapper from "@/components/wrappers/StorageSystemWrapper";
+import ChartWrapper from "@/components/wrappers/ChartWrapper";
+
 export default function Home() {
-  const [isStorageFullscreen, setIsStorageFullscreen] = useState(false);
-  const [isErloesChartFullscreen, setIsErloesChartFullscreen] = useState(false);
-  const [isGewichtChartFullscreen, setIsGewichtChartFullscreen] =
-    useState(false);
+  const [fullscreenWidget, setFullscreenWidget] = useState(null);
 
-  const handleStorageToggleFullscreen = (isFullscreen) => {
-    setIsStorageFullscreen(isFullscreen);
-  };
-
-  const handleChartToggleFullscreen = (isFullscreen, type) => {
-    if (type === "erloese") {
-      setIsErloesChartFullscreen(isFullscreen);
-    } else {
-      setIsGewichtChartFullscreen(isFullscreen);
-    }
+  const handleToggleFullscreen = (widgetName) => {
+    setFullscreenWidget(fullscreenWidget === widgetName ? null : widgetName);
   };
 
   return (
-    <main className="dashboardStats flex flex-col gap-2 overflow-auto md:w-full">
-      {!isStorageFullscreen &&
-        !isErloesChartFullscreen &&
-        !isGewichtChartFullscreen && <DashboardStats />}
-      {!isErloesChartFullscreen && !isGewichtChartFullscreen && (
-        <div
-          className={`StorageSystem ${isStorageFullscreen ? "h-[calc(100vh-6rem)]" : "max-h-[33vh]"} overflow-y-auto rounded-lg bg-e-background-50 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-700 dark:text-gray-200 dark:shadow-none`}
-        >
-          <StorageSystem onToggleFullscreen={handleStorageToggleFullscreen} />
-        </div>
+    <main className="flex h-[calc(100vh-8rem)] flex-col gap-2 md:w-full">
+      {/* Dashboard Stats */}
+      {fullscreenWidget === null && <DashboardStats />}
+
+      {/* Storage System */}
+      {fullscreenWidget !== "revenueChart" && fullscreenWidget !== "weightChart" && (
+        <StorageSystemWrapper
+          fullscreenWidget={fullscreenWidget}
+          onToggleFullscreen={() => handleToggleFullscreen("storage")}
+        />
       )}
-      {!isStorageFullscreen && (
+
+      {/* Charts */}
+      {fullscreenWidget !== "storage" && (
         <div
-          className={`${isErloesChartFullscreen || isGewichtChartFullscreen ? "h-[calc(100vh-6rem)]" : "h-full"} flex flex-col gap-2 rounded-lg shadow-sm shadow-e-brown-500/20 dark:shadow-none lg:flex-row`}
+          className={`flex flex-col gap-2 rounded-lg shadow-sm shadow-e-brown-500/20 dark:shadow-none lg:flex-row ${fullscreenWidget === "revenueChart" || fullscreenWidget === "weightChart"
+            ? "h-full"
+            : "h-2/5"
+            }`}
         >
-          {!isGewichtChartFullscreen && (
-            <div
-              className={`Chart bg-e-white relative h-full rounded-lg border border-e-brown-300 bg-e-background-50 p-1 pt-5 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-800 dark:text-gray-200 dark:shadow-none xl:pt-0 ${isErloesChartFullscreen ? "w-full" : "lg:w-1/2"}`}
-            >
-              <Chart
-                onToggleFullscreen={(isFullscreen) =>
-                  handleChartToggleFullscreen(isFullscreen, "erloese")
-                }
-                type="erloese"
-              />
-            </div>
+          {/* Revenue Chart */}
+          {fullscreenWidget !== "weightChart" && (
+            <ChartWrapper
+              fullscreenWidget={fullscreenWidget}
+              onToggleFullscreen={() => handleToggleFullscreen("revenueChart")}
+              type="revenueChart"
+            />
           )}
-          {!isErloesChartFullscreen && (
-            <div
-              className={`Chart bg-e-white relative h-full rounded-lg border border-e-brown-300 bg-e-background-50 p-1 pt-5 shadow-sm shadow-e-brown-500/20 dark:bg-e-background-800 dark:text-gray-200 dark:shadow-none xl:pt-0 ${isGewichtChartFullscreen ? "w-full" : "lg:w-1/2"}`}
-            >
-              <Chart
-                onToggleFullscreen={(isFullscreen) =>
-                  handleChartToggleFullscreen(
-                    isFullscreen,
-                    "gewichtsentciklung",
-                  )
-                }
-                type="gewichtsentciklung"
-              />
-            </div>
+
+          {/* Weight Chart */}
+          {fullscreenWidget !== "revenueChart" && (
+            <ChartWrapper
+              fullscreenWidget={fullscreenWidget}
+              onToggleFullscreen={() => handleToggleFullscreen("weightChart")}
+              type="weightChart"
+            />
           )}
         </div>
       )}
