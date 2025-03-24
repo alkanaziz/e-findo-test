@@ -205,7 +205,7 @@ export default function Chart({
           ? "Alle abwählen"
           : "Alle auswählen"}
       </button>
-      <div className="flex w-full flex-col flex-wrap items-start md:flex-row md:items-center md:justify-between">
+      <div className="flex w-full flex-col flex-wrap items-start md:flex-row md:items-center md:justify-between lg:flex-col lg:items-start xl:flex-row xl:items-center">
         <div className="flex flex-wrap items-center gap-2">
           {!isInModal && (
             <button
