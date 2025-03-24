@@ -54,7 +54,7 @@ const generateData = (year, month, type) => {
 
     Object.keys(materialWeightRanges).forEach((material, index) => {
       dayData[material] =
-        type === "erloese"
+        type === "revenueChart"
           ? generateErloesValue(day, index)
           : generateWeightValue(day, material);
     });
@@ -182,7 +182,7 @@ export default function Chart({
   ];
 
   const getYAxisConfig = () => {
-    if (type === "erloese") {
+    if (type === "revenueChart") {
       return {
         ticks: [0, 0.2, 0.4, 0.6, 0.8, 1.0],
         domain: [0, 1],
@@ -257,12 +257,12 @@ export default function Chart({
           </div>
         </div>
         <h2 className="mx-auto w-auto text-center text-lg font-semibold dark:text-gray-200">
-          {type === "erloese" ? "Erlöse" : "Gewichtsentciklung"}
+          {type === "revenueChart" ? "Erlöse" : "Gewichtsentciklung"}
         </h2>
       </div>
 
-      <div className="h-80 w-full flex-grow">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-full w-full flex-grow">
+        <ResponsiveContainer width="100%" height="99%">
           {chartType === "balken" ? (
             <BarChart
               data={chartData}
