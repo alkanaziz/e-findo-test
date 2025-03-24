@@ -14,6 +14,7 @@ import MobileMenu from "./MobileMenu";
 import { RxCross2 } from "react-icons/rx";
 import { IoIosArrowDown } from "react-icons/io";
 import { usePathname } from "next/navigation";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -44,11 +45,10 @@ const Header = () => {
               <nav className="hidden lg:flex">
                 <Link
                   href="/"
-                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-                    pathname === "/"
+                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/"
                       ? "font-semibold text-e-brown-500 dark:text-e-brown-300"
                       : "text-e-gray-700 dark:text-e-gray-200 hover:text-e-gray-900 dark:hover:text-white"
-                  }`}
+                    }`}
                 >
                   Start
                   <span
@@ -57,11 +57,10 @@ const Header = () => {
                 </Link>
                 <Link
                   href="/news"
-                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-                    pathname === "/news"
+                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/news"
                       ? "font-semibold text-e-brown-500 dark:text-e-brown-300"
                       : "text-e-gray-700 dark:text-e-gray-200 hover:text-e-gray-900 dark:hover:text-white"
-                  }`}
+                    }`}
                 >
                   News
                   <span
@@ -70,11 +69,10 @@ const Header = () => {
                 </Link>
                 <Link
                   href="/stammdaten"
-                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-                    pathname === "/stammdaten"
+                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/stammdaten"
                       ? "font-semibold text-e-brown-500 dark:text-e-brown-300"
                       : "text-e-gray-700 dark:text-e-gray-200 hover:text-e-gray-900 dark:hover:text-white"
-                  }`}
+                    }`}
                 >
                   Stammdaten
                   <span
@@ -134,16 +132,8 @@ const Header = () => {
 
               {/* Suche */}
               <div className="relative hidden md:block">
-                <input
-                  type="search"
-                  placeholder="Suchen..."
-                  className="bg-e-gray-50 text-e-gray-700 dark:text-e-gray-200 w-full min-w-[150px] rounded-md border border-e-gray-200 py-1.5 pl-3 pr-8 text-sm focus:border-e-brown-500 focus:outline-none focus:ring-1 focus:ring-e-brown-500 dark:bg-e-background-700"
-                />
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-                  <FiSearch className="h-4 w-4 text-e-brown-500 dark:text-white" />
-                </div>
+                <SearchBar hideFilters={true} />
               </div>
-
               {/* DarkMode-Umschalter */}
               <button
                 onClick={toggleTheme}
