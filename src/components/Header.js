@@ -45,10 +45,11 @@ const Header = () => {
               <nav className="hidden lg:flex">
                 <Link
                   href="/"
-                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/"
+                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+                    pathname === "/"
                       ? "font-semibold text-e-brown-500 dark:text-e-brown-300"
                       : "text-e-gray-700 dark:text-e-gray-200 hover:text-e-gray-900 dark:hover:text-white"
-                    }`}
+                  }`}
                 >
                   Start
                   <span
@@ -57,10 +58,11 @@ const Header = () => {
                 </Link>
                 <Link
                   href="/news"
-                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/news"
+                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+                    pathname === "/news"
                       ? "font-semibold text-e-brown-500 dark:text-e-brown-300"
                       : "text-e-gray-700 dark:text-e-gray-200 hover:text-e-gray-900 dark:hover:text-white"
-                    }`}
+                  }`}
                 >
                   News
                   <span
@@ -69,10 +71,11 @@ const Header = () => {
                 </Link>
                 <Link
                   href="/stammdaten"
-                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${pathname === "/stammdaten"
+                  className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+                    pathname === "/stammdaten"
                       ? "font-semibold text-e-brown-500 dark:text-e-brown-300"
                       : "text-e-gray-700 dark:text-e-gray-200 hover:text-e-gray-900 dark:hover:text-white"
-                    }`}
+                  }`}
                 >
                   Stammdaten
                   <span
@@ -93,7 +96,7 @@ const Header = () => {
             <div className="flex items-center space-x-2 md:space-x-4">
               {/* Benachrichtigungssymbol */}
               <div className="relative">
-                <span className="bg-e-orange-500 absolute -top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[11px] font-medium text-e-white text-white">
+                <span className="bg-e-orange-500 text-e-white absolute -top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[11px] font-medium text-white">
                   1
                 </span>
                 <button className="text-e-gray-600 dark:text-e-gray-300 hover:text-e-gray-800 p-1 dark:hover:text-white">
@@ -102,7 +105,7 @@ const Header = () => {
               </div>
 
               <div className="relative">
-                <span className="bg-e-orange-500 absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[11px] font-medium text-e-white text-white">
+                <span className="bg-e-orange-500 text-e-white absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[11px] font-medium text-white">
                   2
                 </span>
                 <button className="text-e-gray-600 dark:text-e-gray-300 hover:text-e-gray-800 p-1 dark:hover:text-white">
@@ -112,7 +115,7 @@ const Header = () => {
 
               {/* Unternehmensauswahl */}
               <div className="relative hidden min-w-[150] md:block">
-                <select className="text-e-gray-700 dark:text-e-gray-200 w-full appearance-none rounded-md border border-e-gray-200 bg-e-white py-1.5 pl-3 pr-8 text-sm focus:border-e-brown-500 focus:outline-none focus:ring-1 focus:ring-e-brown-500 dark:bg-e-background-700">
+                <select className="text-e-gray-700 dark:text-e-gray-200 w-full appearance-none rounded-md border border-e-brown-300 py-1.5 pl-3 pr-8 text-sm focus:border-e-brown-500 focus:outline-none focus:ring-1 focus:ring-e-brown-500 dark:bg-e-background-700">
                   <option>Allsafe GmbH - Engen</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
