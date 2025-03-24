@@ -24,6 +24,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
   const [storageData, setStorageData] = useState([
     {
       id: "CMS-3001",
+      containerName: "CMS-3001",
       liveStatus: true,
       maxWeight: "2600kg",
       material: "Aluminium Profile AlSi1, Fe frei",
@@ -36,6 +37,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-7038",
+      containerName: "CMS-7038", 
       liveStatus: true,
       maxWeight: "6000kg",
       material: "Mischschrott",
@@ -48,6 +50,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-7001",
+      containerName: "CMS-7001",
       liveStatus: false,
       maxWeight: "2500kg",
       material: "Eisenspäne",
@@ -60,6 +63,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-7002",
+      containerName: "CMS-7002",
       liveStatus: true,
       maxWeight: "2750kg",
       material: "Aluminium Profile AlSi1, Fe frei",
@@ -72,6 +76,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-5012",
+      containerName: "CMS-5012",
       liveStatus: true,
       maxWeight: "3500kg",
       material: "Kupferkabel",
@@ -84,6 +89,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-4023",
+      containerName: "CMS-4023",
       liveStatus: false,
       maxWeight: "4200kg",
       material: "Edelstahl",
@@ -96,6 +102,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-8034",
+      containerName: "CMS-8034",
       liveStatus: true,
       maxWeight: "5000kg",
       material: "Leichtmetall",
@@ -108,6 +115,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-6045",
+      containerName: "CMS-6045",
       liveStatus: true,
       maxWeight: "3800kg",
       material: "Stahlschrott",
@@ -120,6 +128,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-9056",
+      containerName: "CMS-9056",
       liveStatus: true,
       maxWeight: "4500kg",
       material: "Messingspäne",
@@ -132,6 +141,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-2067",
+      containerName: "CMS-2067",
       liveStatus: false,
       maxWeight: "3200kg",
       material: "Kupferdrähte",
@@ -144,6 +154,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-1078",
+      containerName: "CMS-1078",
       liveStatus: true,
       maxWeight: "5500kg",
       material: "Aluminiumspäne",
@@ -156,6 +167,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
     },
     {
       id: "CMS-4089",
+      containerName: "CMS-4089",
       liveStatus: true,
       maxWeight: "4800kg",
       material: "Zinkschrott",
