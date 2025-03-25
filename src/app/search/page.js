@@ -5,11 +5,12 @@ import { useSearchParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
 import ContainerCard from "@/components/ContainerCard";
 import Modal from "@/components/Modal";
+import { storageData as initialStorageData } from "../../data/storageData";
 
 function SearchPageContent() {
   const searchParams = useSearchParams();
 
-  // URL parametrelerinden arama terimlerini alın
+  // Suchbegriffe aus den URL-Parametern abrufen
   const initialTerm = searchParams.get("term") || "";
   const initialMaterial = searchParams.get("material") || "";
   const initialCompany = searchParams.get("company") || "";
@@ -18,170 +19,13 @@ function SearchPageContent() {
   const initialDateTo = searchParams.get("dateTo") || "";
   const initialDateType = searchParams.get("dateType") || "systemDate";
 
-  // StorageSystem.js dosyasındaki örnek verileri kullanın
-  const [containers, setContainers] = useState([
-    {
-      id: "CMS-3001",
-      containerName: "CMS-3001",
-      liveStatus: true,
-      maxWeight: "2600kg",
-      material: "Aluminium Profile AlSi1, Fe frei",
-      company: "e-findo GmbH",
-      nettoWeight: "890 kg",
-      monthlyPrice: "2025/März : 0,00 €",
-      fillLevel: 34.23,
-      pickupDate: null,
-      systemDate: "20.03.2025 12:12",
-    },
-    {
-      id: "CMS-7038",
-      containerName: "CMS-7038",
-      liveStatus: true,
-      maxWeight: "6000kg",
-      material: "Mischschrott",
-      company: "e-findo GmbH",
-      nettoWeight: "1760 kg",
-      monthlyPrice: "2025/März : 0,00 €",
-      fillLevel: 29.33,
-      pickupDate: null,
-      systemDate: "15.03.2025 12:12",
-    },
-    {
-      id: "CMS-7001",
-      containerName: "CMS-7001",
-      liveStatus: false,
-      maxWeight: "2500kg",
-      material: "Eisenspäne",
-      company: "e-findo GmbH",
-      nettoWeight: "405 kg",
-      monthlyPrice: "2025/März : 0,00 €",
-      fillLevel: 16.2,
-      pickupDate: null,
-      systemDate: "10.03.2025 07:00",
-    },
-    {
-      id: "CMS-7002",
-      containerName: "CMS-7002",
-      liveStatus: true,
-      maxWeight: "2750kg",
-      material: "Aluminium Profile AlSi1, Fe frei",
-      company: "e-findo GmbH",
-      nettoWeight: "575 kg",
-      monthlyPrice: "2025/März : 0,00 €",
-      fillLevel: 20.9,
-      pickupDate: null,
-      systemDate: "15.03.2025 12:12",
-    },
-    {
-      id: "CMS-5012",
-      containerName: "CMS-5012",
-      liveStatus: true,
-      maxWeight: "3500kg",
-      material: "Kupferkabel",
-      company: "Metall GmbH",
-      nettoWeight: "1240 kg",
-      monthlyPrice: "2025/März : 125,50 €",
-      fillLevel: 35.43,
-      pickupDate: "15.04.2025",
-      systemDate: "12.03.2025 14:30",
-    },
-    {
-      id: "CMS-4023",
-      containerName: "CMS-4023",
-      liveStatus: false,
-      maxWeight: "4200kg",
-      material: "Edelstahl",
-      company: "Recycling AG",
-      nettoWeight: "980 kg",
-      monthlyPrice: "2025/März : 87,20 €",
-      fillLevel: 23.33,
-      pickupDate: null,
-      systemDate: "05.03.2025 09:45",
-    },
-    {
-      id: "CMS-8034",
-      containerName: "CMS-8034",
-      liveStatus: true,
-      maxWeight: "5000kg",
-      material: "Leichtmetall",
-      company: "Wertstoff KG",
-      nettoWeight: "1680 kg",
-      monthlyPrice: "2025/März : 143,75 €",
-      fillLevel: 33.6,
-      pickupDate: null,
-      systemDate: "18.03.2025 11:15",
-    },
-    {
-      id: "CMS-6045",
-      containerName: "CMS-6045",
-      liveStatus: true,
-      maxWeight: "3800kg",
-      material: "Stahlschrott",
-      company: "e-findo GmbH",
-      nettoWeight: "1125 kg",
-      monthlyPrice: "2025/März : 92,30 €",
-      fillLevel: 29.61,
-      pickupDate: null,
-      systemDate: "07.03.2025 16:20",
-    },
-    {
-      id: "CMS-9056",
-      containerName: "CMS-9056",
-      liveStatus: true,
-      maxWeight: "4500kg",
-      material: "Messingspäne",
-      company: "Metall GmbH",
-      nettoWeight: "1850 kg",
-      monthlyPrice: "2025/März : 165,90 €",
-      fillLevel: 41.11,
-      pickupDate: "20.04.2025",
-      systemDate: "22.03.2025 08:45",
-    },
-    {
-      id: "CMS-2067",
-      containerName: "CMS-2067",
-      liveStatus: false,
-      maxWeight: "3200kg",
-      material: "Kupferdrähte",
-      company: "Recycling AG",
-      nettoWeight: "960 kg",
-      monthlyPrice: "2025/März : 112,40 €",
-      fillLevel: 30.0,
-      pickupDate: null,
-      systemDate: "25.03.2025 13:20",
-    },
-    {
-      id: "CMS-1078",
-      containerName: "CMS-1078",
-      liveStatus: true,
-      maxWeight: "5500kg",
-      material: "Aluminiumspäne",
-      company: "Wertstoff KG",
-      nettoWeight: "2100 kg",
-      monthlyPrice: "2025/März : 178,25 €",
-      fillLevel: 38.18,
-      pickupDate: "10.04.2025",
-      systemDate: "28.03.2025 15:50",
-    },
-    {
-      id: "CMS-4089",
-      containerName: "CMS-4089",
-      liveStatus: true,
-      maxWeight: "4800kg",
-      material: "Zinkschrott",
-      company: "e-findo GmbH",
-      nettoWeight: "1560 kg",
-      monthlyPrice: "2025/März : 134,60 €",
-      fillLevel: 32.5,
-      pickupDate: null,
-      systemDate: "30.03.2025 10:15",
-    },
-  ]);
+  // Beispieldaten aus der StorageSystem.js-Datei verwenden
+  const [containers, setContainers] = useState(initialStorageData);
 
   const [filteredContainers, setFilteredContainers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Modaller için state
+  // State für Modals
   const [datePickerModal, setDatePickerModal] = useState({
     isOpen: false,
     itemId: null,
@@ -189,7 +33,7 @@ function SearchPageContent() {
 
   const [selectedDate, setSelectedDate] = useState("");
 
-  // İlk yükleme sırasında ve URL parametreleri değiştiğinde filtreleme yapın
+  // Beim ersten Laden und bei Änderung der URL-Parameter filtern
   useEffect(() => {
     filterContainers({
       searchTerm: initialTerm,
@@ -198,7 +42,7 @@ function SearchPageContent() {
       status: initialStatus,
       dateFrom: initialDateFrom,
       dateTo: initialDateTo,
-      dateType: initialDateType
+      dateType: initialDateType,
     });
     setLoading(false);
   }, [
@@ -208,14 +52,14 @@ function SearchPageContent() {
     initialStatus,
     initialDateFrom,
     initialDateTo,
-    initialDateType
+    initialDateType,
   ]);
 
-  // Konteyner verilerini filtrele
+  // Container-Daten filtern
   const filterContainers = (filters) => {
     let filtered = [...containers];
 
-    // Genel arama terimi uygulandı
+    // Allgemeiner Suchbegriff angewandt
     if (filters.searchTerm) {
       const term = filters.searchTerm.toLowerCase();
       filtered = filtered.filter((container) => {
@@ -228,50 +72,55 @@ function SearchPageContent() {
       });
     }
 
-    // Malzeme filtresi
+    // Material-Filter
     if (filters.material) {
       filtered = filtered.filter((container) =>
-        container.material.toLowerCase().includes(filters.material.toLowerCase())
+        container.material
+          .toLowerCase()
+          .includes(filters.material.toLowerCase()),
       );
     }
 
-    // Şirket filtresi
+    // Firmen-Filter
     if (filters.company) {
       filtered = filtered.filter((container) =>
-        container.company.toLowerCase().includes(filters.company.toLowerCase())
+        container.company.toLowerCase().includes(filters.company.toLowerCase()),
       );
     }
 
-    // Durum filtresi
+    // Status-Filter
     if (filters.status) {
       const statusValue = filters.status === "true";
       filtered = filtered.filter(
-        (container) => container.liveStatus === statusValue
+        (container) => container.liveStatus === statusValue,
       );
     }
 
-    // Tarih filtreleri
+    // Datums-Filter
     if (filters.dateFrom || filters.dateTo) {
       filtered = filtered.filter((container) => {
-        // Hangi tarih alanı üzerinde filtreleme yapılacağını belirle
-        const dateField = filters.dateType === "pickupDate" ? "pickupDate" : "systemDate";
+        // Bestimme, welches Datumsfeld gefiltert werden soll
+        const dateField =
+          filters.dateType === "pickupDate" ? "pickupDate" : "systemDate";
 
-        // Tarihi al ve kontrol et
+        // Datum abrufen und prüfen
         if (dateField === "pickupDate" && !container.pickupDate) {
-          // Eğer pickupDate seçildi ama container'ın pickupDate'i yoksa
-          // ve bir date aralığı belirlendiyse, bu container'ı filtreleme listesinden çıkar
+          // Wenn pickupDate ausgewählt wurde, aber der Container kein pickupDate hat
+          // und ein Datumsbereich festgelegt wurde, entferne diesen Container aus der Filterliste
           return false;
         }
 
-        // Tarihi tarih nesnesine dönüştür
+        // Datum in ein Datumsobjekt umwandeln
         const dateParts = container[dateField]?.split(" ")[0].split(".");
         if (!dateParts || dateParts.length !== 3) {
-          return false; // Geçersiz tarih formatı
+          return false; // Ungültiges Datumsformat
         }
 
-        const date = new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
+        const date = new Date(
+          `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`,
+        );
         if (isNaN(date.getTime())) {
-          return false; // Geçersiz tarih
+          return false; // Ungültiges Datum
         }
 
         let matchesDateFrom = true;
@@ -294,24 +143,24 @@ function SearchPageContent() {
     setFilteredContainers(filtered);
   };
 
-  // SearchBar bileşeninden gelen arama işlemini yönet
+  // Verwaltung der Suche aus der SearchBar-Komponente
   const handleSearch = (filters) => {
     filterContainers(filters);
   };
 
-  // Tarih düzenleme modalını açın
+  // Datumsauswahlmodal öffnen
   const openDatePickerModal = (itemId) => {
     setDatePickerModal({
       isOpen: true,
       itemId,
     });
 
-    // Mevcut tarihi bulun (varsa)
+    // Aktuelles Datum finden (falls vorhanden)
     const item = containers.find((item) => item.id === itemId);
     if (item && item.pickupDate) {
       setSelectedDate(formatDateForInput(item.pickupDate));
     } else {
-      // Yoksa bugünün tarihini ayarlayın
+      // Sonst heutiges Datum setzen
       const today = new Date();
       const formattedDate = today.toISOString().split("T")[0];
       setSelectedDate(formattedDate);
@@ -326,31 +175,31 @@ function SearchPageContent() {
     setSelectedDate("");
   };
 
-  // Konteyner düzenleme işlemi
+  // Container-Bearbeitungsvorgang
   const handleEditContainer = (updatedContainer) => {
-    // Orijinal konteyner listesini güncelleyin
+    // Originale Container-Liste aktualisieren
     setContainers((prevData) =>
       prevData.map((item) =>
-        item.id === updatedContainer.id ? updatedContainer : item
-      )
+        item.id === updatedContainer.id ? updatedContainer : item,
+      ),
     );
 
-    // Filtre uygulanan listeyi de güncelleyin (arama sonuçlarını güncel tutmak için)
+    // Gefilterte Liste ebenfalls aktualisieren (um Suchergebnisse aktuell zu halten)
     setFilteredContainers((prevData) =>
       prevData.map((item) =>
-        item.id === updatedContainer.id ? updatedContainer : item
-      )
+        item.id === updatedContainer.id ? updatedContainer : item,
+      ),
     );
   };
 
-  // Alman tarih formatını (DD.MM.YYYY) giriş için uygun formata dönüştürün (YYYY-MM-DD)
+  // Deutsches Datumsformat (DD.MM.YYYY) in Eingabeformat (YYYY-MM-DD) umwandeln
   const formatDateForInput = (germanDate) => {
     if (!germanDate) return "";
     const [day, month, year] = germanDate.split(".");
     return `${year}-${month}-${day}`;
   };
 
-  // Giriş formatını (YYYY-MM-DD) Alman tarih formatına (DD.MM.YYYY) dönüştürün
+  // Eingabeformat (YYYY-MM-DD) in deutsches Datumsformat (DD.MM.YYYY) umwandeln
   const formatDateForDisplay = (inputDate) => {
     if (!inputDate) return "";
     const [year, month, day] = inputDate.split("-");
@@ -365,22 +214,22 @@ function SearchPageContent() {
     if (datePickerModal.itemId && selectedDate) {
       const formattedDate = formatDateForDisplay(selectedDate);
 
-      // Orijinal konteyner listesini güncelleyin
+      // Originale Container-Liste aktualisieren
       setContainers((prevData) =>
         prevData.map((item) =>
           item.id === datePickerModal.itemId
             ? { ...item, pickupDate: formattedDate }
-            : item
-        )
+            : item,
+        ),
       );
 
-      // Filtre uygulanan listeyi de güncelleyin (arama sonuçlarını güncel tutmak için)
+      // Gefilterte Liste ebenfalls aktualisieren (um Suchergebnisse aktuell zu halten)
       setFilteredContainers((prevData) =>
         prevData.map((item) =>
           item.id === datePickerModal.itemId
             ? { ...item, pickupDate: formattedDate }
-            : item
-        )
+            : item,
+        ),
       );
 
       closeDatePickerModal();
@@ -403,7 +252,7 @@ function SearchPageContent() {
             status: initialStatus,
             dateFrom: initialDateFrom,
             dateTo: initialDateTo,
-            dateType: initialDateType
+            dateType: initialDateType,
           }}
         />
       </div>
@@ -421,7 +270,10 @@ function SearchPageContent() {
       ) : (
         <div className="flex flex-wrap justify-start gap-6">
           {filteredContainers.map((container) => (
-            <div key={container.id} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]">
+            <div
+              key={container.id}
+              className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
+            >
               <ContainerCard
                 container={container}
                 onEditClick={handleEditContainer}
@@ -432,7 +284,7 @@ function SearchPageContent() {
         </div>
       )}
 
-      {/* Tarih Seçme Modalı */}
+      {/* Datumsauswahl-Modal */}
       <Modal
         isOpen={datePickerModal.isOpen}
         onClose={closeDatePickerModal}
@@ -444,7 +296,7 @@ function SearchPageContent() {
               <div className="grid grid-cols-1 gap-2 text-sm">
                 {(() => {
                   const item = containers.find(
-                    (item) => item.id === datePickerModal.itemId
+                    (item) => item.id === datePickerModal.itemId,
                   );
                   return (
                     <>
@@ -508,17 +360,19 @@ function SearchPageContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="mb-6 text-2xl font-bold text-e-brown-800 dark:text-white">
-          Container Suche
-        </h1>
-        <div className="flex h-40 items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-e-brown-600"></div>
+    <Suspense
+      fallback={
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="mb-6 text-2xl font-bold text-e-brown-800 dark:text-white">
+            Container Suche
+          </h1>
+          <div className="flex h-40 items-center justify-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-e-brown-600"></div>
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <SearchPageContent />
     </Suspense>
   );
-} 
+}
