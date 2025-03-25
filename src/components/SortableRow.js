@@ -17,6 +17,7 @@ export function SortableRow({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    touchAction: "none",
   };
 
   return (
@@ -30,13 +31,18 @@ export function SortableRow({
         <button
           {...attributes}
           {...listeners}
-          className="cursor-move pl-3 dark:text-gray-300"
+          className="flex cursor-move items-center justify-center pl-3 dark:text-gray-300"
           aria-label="Reihenfolge ändern"
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          style={{ touchAction: "none" }}
         >
           <MdOutlineDragIndicator />
         </button>
       </td>
-      <td className="mx-auto w-5 pr-3 dark:text-gray-300">
+      <td className="mx-auto w-5 p-3 dark:text-gray-300">
         {item.liveStatus ? (
           <div className="flex items-center">
             <div className="relative h-5 w-5">
