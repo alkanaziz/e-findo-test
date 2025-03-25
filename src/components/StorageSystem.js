@@ -163,7 +163,7 @@ const StorageSystem = ({ isInModal = false, onToggleFullscreen = null }) => {
             <thead className="text-xs lg:text-sm">
               <tr className="bg-gradient-to-r from-e-brown-200 to-e-brown-300 text-left dark:from-e-background-700 dark:to-e-background-600">
                 <th className="rounded-tl-md pl-3 font-semibold text-e-brown-800 dark:text-gray-200"></th>
-                <th className="pr-3 font-semibold text-e-brown-800 dark:text-gray-200">
+                <th className="p-3 font-semibold text-e-brown-800 dark:text-gray-200">
                   Live Status
                 </th>
                 <th className="p-3 font-semibold text-e-brown-800 dark:text-gray-200">
